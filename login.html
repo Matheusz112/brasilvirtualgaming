@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-image: url('https://images5.alphacoders.com/380/380127.png');
+            background-size: cover;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .login-form {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+
+        .login-button {
+            background-color: #ffcc00;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .login-button:hover {
+                background-color: #ffd633;
+            }
+
+        h2 {
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ff6666;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border-radius: 5px;
+            animation: progressAnimation 7s linear;
+        }
+
+        @keyframes progressAnimation {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0;
+            }
+        }
+
+        /* Adição do estilo para o chat lateral */
+        .chat-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 300px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            overflow-y: scroll;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none; /* Inicialmente oculto */
+        }
+
+        .message {
+            margin-bottom: 10px;
+        }
+
+        /* Adição do estilo para o botão de visualização do chat */
+        .chat-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #ffcc00;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+            .chat-btn:hover {
+                background-color: #ffd633;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+
+        /* Adição de estilo para a coroa do membro VIP e Rei */
+        .crown {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 16px;
+        }
+
+        .vip {
+            color: #ffcc00; /* Amarelo */
+        }
+
+        .rei {
+            color: #ff0000; /* Vermelho */
+        }
+    </style>
+    <title>Seu Site</title>
+</head>
+<body>
+    <div class="container">
+        <img src="https://iili.io/JuDWSSI.png" alt="Logo" class="logo">
+        <form class="login-form">
+            <h2>Para acessar o site é necessário realizar o login</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="button" class="login-button" onclick="validateLogin()">Login</button>
+        </form>
+
+        <footer>
+            Criado por Matheus Henriqu Nunes
+            <!-- Adição do indicador de membro VIP e Rei -->
+            <span id="userIndicator" class="crown"></span>
+        </footer>
+
+        <div id="popup" class="popup">
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            Usuário e/ou senha incorretos. Tente novamente.
+        </div>
+    </div>
+
+    <!-- Adição do chat lateral -->
+    <div class="chat-container">
+        <h2>Chat Global</h2>
+        <div id="chat"></div>
+    </div>
+
+    <!-- Adição do botão de visualização do chat -->
+    <div class="chat-btn" onclick="toggleChat()">CLIQUE DUAS VEZES PARA VISUALIZAR O CHAT</div>
+
+    <script>
+        function validateLogin() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Simulação de membro VIP e Rei com base no username
+            var isVIP = username === "vip";
+            var isRei = username === "rei";
+
+            // Atualização do indicador de membro VIP e Rei
+            var userIndicator = document.getElementById("userIndicator");
+            if (isVIP) {
+                userIndicator.textContent = "👑";
+                userIndicator.classList.add("vip");
+            } else if (isRei) {
+                userIndicator.textContent = "👑";
+                userIndicator.classList.add("rei");
+            }
+
+            if (username === "usuario" && password === "senha") {
+                console.log("Login bem-sucedido");
+            } else {
+                var popup = document.getElementById("popup");
+                var progressBar = document.querySelector(".progress-bar");
+
+                popup.style.display = "block";
+                popup.classList.add("fade-in");
+
+                progressBar.style.animation = "none";
+                progressBar.offsetHeight; /* Trigger reflow */
+                progressBar.style.animation = "progressAnimation 7s linear";
+
+                setTimeout(function () {
+                    popup.style.display = "none";
+                }, 7000);
+            }
+        }
+
+        // Função para adicionar mensagens de acordo com o índice
+        function addSequentialMessage(index) {
+            var messages = [
+                "[BOPE] Fill: toca nada KKKKKKKKKKKKKK tu bateu no poste po nem vem tu ficou desesperado",
+                "[V]ovo_[N]inja_.: Nada ver po tu que tá lagado e fez eu bater no poste kkkkk",
+                "[BOPE] Fill: kkkkk quero nem saber vou te prender por 17 min por desacato + direção perigosa",
+                "[BVG] Matheus_. 👑: ATENÇÃO, JOGADORES! O CHAT GLOBAL É EXCLUSIVO PARA CONVERSAS RELACIONADAS AO SERVIDOR EM GERAL. POR FAVOR, EVITEM DISCUSSÕES OU PROVOCAÇÕES AQUI. PARA QUESTÕES DESSE TIPO, UTILIZEM O CHAT LOCAL. QUALQUER COMENTÁRIO DESRESPEITOSO RESULTARÁ EM UM BANIMENTO DE 3 DIAS NO CHAT. AGRADEÇO PELA COLABORAÇÃO E PELO RESPEITO ENTRE OS JOGADORES!",
+                "[BVG] Rodrigo 🗸: Concordado! Vou chegar no servidor BVG com tanta animação que até o código vai pedir timeout de tanto rir kkkkkkkk",
+                "Carlos: como carrega o material do outro processado para refinaria???",
+                "[BVG] Matheus_. 👑: Opa eae Carlos bacana? use /minhamineradora -> carregar material -> escolha OURO PRATA OU BRONZE -> Depois Exportar para micro indústrias, pois a refinaria ainda não tem essa opção",
+                "AMANDA.PX: KKKKK ganhei 500k exportando ouro para a indústria de Pedro",
+                "Smek: HAHAHAHA eu também ganhei 480k só exportando para ele po a indústria dele cresceu rapidinho po",
+                "AMANDA.PX: né isso ele tá pagando os jogadores com dinheiro real pra trabalhar pra ele e aumentar o nível da indústria dele para o máximo",
+                "AMANDA.PX: Acho que ele deve gastar uns 200 reais por dia só comprando bvg cash para pagar os funcionários dele",
+                "BVG Matheus_. 👑: Kkkkk, não fala do Pedro, não, po! Ele é esperto e um dos meus clientes fiéis. Fico feliz em saber que gerei emprego de verdade para jogadores do BVG KKKKKK já posso virar prefeito",
+                "Smek: eu fiquei sabendo que ele pagou o LENNON 70 Reais só pra ficar 24 horas jogando e upando a micro indústria dele hoje de manhã ele tava com 100/10000 carregamentos agora ele já tá e com 6000/10000",
+                "[BVG] Rodrigo 🗸: KAKAKAKAKAK O Pedro tá deixando o Matheus cheio dos malotes po esquece",
+                "[BOPE] Fill: >_< acho que quero trabalhar po Pedro em",
+                "ZIMOX OPAAA SLC vou logo e entregar meu currículo pra ele $$",
+                "[BVG] Matheus_. 👑: kkkkkk",
+                "Isabelly: essa atualização impulsionou muito o servidor antes batia 300 jogadores agora tá com 500",
+                "[BVG] Matheus_. 👑: Verdade em breve irei investir em mais publicidades para ver se conseguimos aumentar mais ainda esse número.",
+                "Isabelly: Falaaaa ai Matheus seu lindoooo gostosooo que saudadessss",
+                "[BVG] Matheus_. 👑: Opaaaa, eae Isabelly! Kkk, fico feliz em te ver por aqui novamente. Também estava com saudade.",
+                "[V]ovo_[N]inja_.: EITAA Matheus tá eee insano viu slc",
+                "[BVG] Rodrigo 🗸: KAKAKAKAKAKKAKAKA O HOMEM UMA MÁQUINA",
+                "Smek: MDSS KKKKKKK",
+                "Smek: MDSS KKKKKKK",
+                "[BVG]:PROCURANDO ATUALIZAÇOES RECENTES DE MENSAGENS DURANTE OS ULTIMOS 10 MINUTOS ⚙️",
+                "[BVG]:PROCURANDO ATUALIZAÇOES RECENTES DE MENSAGENS DURANTE OS ULTIMOS 10 MINUTOS ⚙️",
+                "[BVG]:PROCURANDO ATUALIZAÇOES RECENTES DE MENSAGENS DURANTE OS ULTIMOS 10 MINUTOS ⚙️",
+                "[BVG]:PROCURANDO ATUALIZAÇOES RECENTES DE MENSAGENS DURANTE OS ULTIMOS 10 MINUTOS ⚙️",
+                "[BVG]:PROCURANDO ATUALIZAÇOES RECENTES DE MENSAGENS DURANTE OS ULTIMOS 10 MINUTOS ⚙️",
+                "[BVG]:PROCURANDO ATUALIZAÇOES RECENTES DE MENSAGENS DURANTE OS ULTIMOS 10 MINUTOS ⚙️",
+                "[BVG]:PROCURANDO ATUALIZAÇOES RECENTES DE MENSAGENS DURANTE OS ULTIMOS 10 MINUTOS ⚙️",
+                "[BVG]:PROCURANDO ATUALIZAÇOES RECENTES DE MENSAGENS DURANTE OS ULTIMOS 10 MINUTOS ⚙️",
+                "[BVG]:PROCURANDO ATUALIZAÇOES RECENTES DE MENSAGENS DURANTE OS ULTIMOS 10 MINUTOS ⚙️",
+                "[BVG]:PROCURANDO ATUALIZAÇOES RECENTES DE MENSAGENS DURANTE OS ULTIMOS 10 MINUTOS ⚙️"
+            ];
+
+            var chatContainer = document.getElementById("chat");
+
+            var messageElement = document.createElement("div");
+            messageElement.className = "message";
+            messageElement.textContent = messages[index];
+
+            chatContainer.appendChild(messageElement);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Adiciona uma mensagem a cada 10 segundos (pode ajustar conforme necessário)
+        var messageIndex = 0;
+        setInterval(function () {
+            addSequentialMessage(messageIndex);
+            messageIndex = (messageIndex + 1) % 30;
+        }, 15000);
+
+        // Função para alternar a visibilidade do chat
+        function toggleChat() {
+            var chatContainer = document.querySelector(".chat-container");
+            chatContainer.style.display = chatContainer.style.display === "none" ? "block" : "none";
+        }
+    </script>
+</body>
+</html>
